@@ -19,39 +19,35 @@ const UserPage = ({ load = 10 }) => {
     const [loading, setLoading] = useScroll(getRepos);
 
     useEffect(() => {
-        if (repos.length === 0) getRepos();
+        if (repos!.length === 0) getRepos();
     }, []);
 
     async function getRepos() {
         if (allLoaded) return;
 
-        let res;
         try {
-            res = await fetch(
+            var res = await fetch(
                 `https://api.github.com/users/${username}/repos?per_page=${load}&page=${currentPage}`,
                 {
                     headers: { Accept: "application/vnd.github.v3+json" }
                 }
             );
-            if (!res.ok)
-                throw new Error(
-                    `response code: ${res.status} ${res.statusText}`
-                );
+            if (!res.ok) throw new Error(`response code: ${res.status}`);
         } catch (err) {
             console.error(err);
             setError(true);
             return;
         }
         try {
-            res = await res.json();
+            var json: any[] = await res.json();
         } catch (err) {
             console.error(err);
             return;
         }
-        setCurrentPage(currentPage + 1);
+        setCurrentPage!(currentPage! + 1);
         setLoading(false);
-        setRepos([...repos, ...res]);
-        setAllLoaded(res.length !== load);
+        setRepos!([...repos!, ...json]);
+        setAllLoaded!(json.length !== load);
     }
 
     return (
@@ -61,7 +57,7 @@ const UserPage = ({ load = 10 }) => {
                 {error ? (
                     <div>error</div>
                 ) : (
-                    repos.map((repo, index) => (
+                    repos!.map((repo, index) => (
                         <Link
                             className="userpage-repo list-group-item list-group-item-action"
                             to={`/users/${username}/repos/${repo.name}`}

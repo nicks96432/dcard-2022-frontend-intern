@@ -7,7 +7,8 @@ const Repopage = lazy(() => import("./components/RepoPage"));
 const UserPage = lazy(() => import("./components/UserPage"));
 
 const App = () => {
-    const [repos, setRepos] = useState([]);
+    const repo_init: any[] = [];
+    const [repos, setRepos] = useState(repo_init);
     const [allLoaded, setAllLoaded] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
 

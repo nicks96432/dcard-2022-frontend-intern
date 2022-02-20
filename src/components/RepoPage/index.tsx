@@ -2,27 +2,41 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./RepoPage.css";
 
-
 const RepoPage = () => {
-	const [error, setError] = useState(false);
+    const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [repoInfo, setRepoInfo] = useState({});
+    const [repoInfo, setRepoInfo] = useState({
+        full_name: "",
+        stargazers_count: 0,
+        description: "",
+        html_url: ""
+    });
     const { username, repo } = useParams();
 
     useEffect(() => {
-        fetch(`https://api.github.com/repos/${username}/${repo}`, {
-            headers: { Accept: "application/vnd.github.v3+json" }
-        })
-            .then(res => {
-                setError(!res.ok);
-                if (res.ok) return res.json();
-                else throw new Error(`response satus: ${res.status}`);
-            })
-            .then(json => {
-                setRepoInfo(json);
-                setLoading(false);
-            })
-            .catch(err => console.error(err));
+        (async () => {
+            try {
+                var res = await fetch(
+                    `https://api.github.com/repos/${username}/${repo}`,
+                    {
+                        headers: { Accept: "application/vnd.github.v3+json" }
+                    }
+                );
+                if (!res.ok) throw new Error(`response code: ${res.status}`);
+            } catch (err) {
+                console.error(err);
+                setError(true);
+                return;
+            }
+            try {
+                var json = await res.json();
+            } catch (err) {
+                console.error(err);
+                return;
+            }
+            setRepoInfo(json);
+            setLoading(false);
+        })();
     }, [username, repo]);
 
     return (

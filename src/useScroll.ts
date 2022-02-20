@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const useScroll = (callback, delay = 1000) => {
+const useScroll = (
+    callback: Function,
+    delay = 1000
+): [boolean, Dispatch<SetStateAction<boolean>>] => {
     const [loading, setLoading] = useState(false);
 
     const handleScroll = () => {
