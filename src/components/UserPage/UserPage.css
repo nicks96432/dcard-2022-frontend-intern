@@ -1,0 +1,16 @@
+.userpage {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-family: jf-openhuninn, Ariel, sans-serif;
+    margin: auto;
+}
+
+.userpage-repos {
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.userpage-repo {
+    padding: 20px;
+}
