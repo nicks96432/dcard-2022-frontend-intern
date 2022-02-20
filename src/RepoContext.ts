@@ -1,4 +1,4 @@
-import { Context, createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 
 type RepoContextType = {
     allLoaded?: boolean;
@@ -7,8 +7,16 @@ type RepoContextType = {
     setCurrentPage?: Dispatch<SetStateAction<number>>;
     repos?: any[];
     setRepos?: Dispatch<SetStateAction<any[]>>;
+    githubApiHeaders?: HeadersInit;
+}
+
+const githubApiHeaders: HeadersInit = {
+    Accept: "application/vnd.github.v3+json"
 };
 
-const RepoContext: Context<RepoContextType> = createContext({});
+if (process.env.REACT_APP_GITHUB_TOKEN !== undefined)
+    githubApiHeaders.Authorization = `token ${process.env.REACT_APP_GITHUB_TOKEN}`;
+
+const RepoContext = createContext<RepoContextType>({ githubApiHeaders });
 
 export default RepoContext;

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import RepoContext from "../../RepoContext";
 import "./RepoPage.css";
 
 const RepoPage = () => {
@@ -12,15 +13,14 @@ const RepoPage = () => {
         html_url: ""
     });
     const { username, repo } = useParams();
+    const { githubApiHeaders } = useContext(RepoContext);
 
     useEffect(() => {
         (async () => {
             try {
                 var res = await fetch(
                     `https://api.github.com/repos/${username}/${repo}`,
-                    {
-                        headers: { Accept: "application/vnd.github.v3+json" }
-                    }
+                    { headers: githubApiHeaders }
                 );
                 if (!res.ok) throw new Error(`response code: ${res.status}`);
             } catch (err) {
@@ -37,7 +37,7 @@ const RepoPage = () => {
             setRepoInfo(json);
             setLoading(false);
         })();
-    }, [username, repo]);
+    }, [username, repo, githubApiHeaders]);
 
     return (
         <div className="repopage container">

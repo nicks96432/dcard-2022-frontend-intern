@@ -13,13 +13,15 @@ const UserPage = ({ load = 10 }) => {
         currentPage,
         setCurrentPage,
         repos,
-        setRepos
+        setRepos,
+        githubApiHeaders
     } = useContext(RepoContext);
 
     const [loading, setLoading] = useScroll(getRepos);
 
     useEffect(() => {
         if (repos!.length === 0) getRepos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getRepos() {
@@ -28,9 +30,7 @@ const UserPage = ({ load = 10 }) => {
         try {
             var res = await fetch(
                 `https://api.github.com/users/${username}/repos?per_page=${load}&page=${currentPage}`,
-                {
-                    headers: { Accept: "application/vnd.github.v3+json" }
-                }
+                { headers: githubApiHeaders }
             );
             if (!res.ok) throw new Error(`response code: ${res.status}`);
         } catch (err) {
