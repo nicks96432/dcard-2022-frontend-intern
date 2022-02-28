@@ -1,6 +1,6 @@
 # 2022 Dcard Web Frontend Intern Homework
 
-## how to start this program
+## how to start this app
 
 In the project directory, you can use
 
@@ -18,10 +18,10 @@ yarn build
 yarn start:preview
 ```
 
-to run this program in production mode.  
+to start this app in production mode.  
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.  
 
-## design of this program
+## design of this app
 
 Using cra-template, typescript, react-router-dom and some bootstrap styling. Deployed on Heroku.
 
